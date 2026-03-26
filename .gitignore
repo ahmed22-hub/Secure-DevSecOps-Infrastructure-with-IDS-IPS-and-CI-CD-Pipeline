@@ -1,0 +1,26 @@
+# Environment files
+.env
+.env.*
+
+# Virtual environments
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Editor folders
+.vscode/
+.idea/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
