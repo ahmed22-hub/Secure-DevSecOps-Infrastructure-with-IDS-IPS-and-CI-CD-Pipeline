@@ -1,42 +1,36 @@
+import os
 from flask import Flask, jsonify, request
 
 app = Flask(__name__)
+PORT = os.getenv("PORT")
+DEBUG = os.getenv("DEBUG")
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+
+
+if not PORT or not ADMIN_USERNAME or not ADMIN_PASSWORD:
+    raise Exception("Missing environment variables!")
 
 @app.route("/")
 def home():
-    return """
-    <h1>Secure DevSecOps Demo App</h1>
-    <p>Application minimale pour le projet PFA.</p>
-    <p>Routes disponibles:</p>
-    <ul>
-        <li><a href="/health">/health</a></li>
-        <li><a href="/login">/login</a></li>
-    </ul>
-    """
+    return "Secure App Running 🚀"
 
 @app.route("/health")
 def health():
-    return jsonify({
-        "status": "ok",
-        "service": "demo-app"
-    }), 200
+    return jsonify({"status": "OK"}), 200
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["POST"])
 def login():
-    if request.method == "POST":
-        username = request.form.get("username", "")
-        return f"<h2>Bienvenue {username}</h2><p>Login demo reussi.</p>"
-    
-    return """
-    <h1>Demo Login Page</h1>
-    <form method="post">
-        <label>Username:</label><br>
-        <input type="text" name="username"><br><br>
-        <label>Password:</label><br>
-        <input type="password" name="password"><br><br>
-        <button type="submit">Login</button>
-    </form>
-    """
+    data = request.json
+
+    username = data.get("username")
+    password = data.get("password")
+
+    if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
+        return jsonify({"message": "Login successful"})
+    else:
+        return jsonify({"message": "Invalid credentials"}), 401
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=int(PORT), debug=(DEBUG == "True"))
+
