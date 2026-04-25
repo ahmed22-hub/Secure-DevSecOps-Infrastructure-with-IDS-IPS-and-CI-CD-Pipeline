@@ -78,12 +78,6 @@ docker compose up --build
 
 ---
 
-## verification
-
-- http://localhost:5000 → OK
-- Logs show Flask running
-
----
 
 ## result
 
