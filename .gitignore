@@ -24,3 +24,20 @@ node_modules/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Certificates (IMPORTANT)
+nginx/certs/
+*.key
+*.crt
+
+# Docker env
+docker/.env
+
+# Security outputs
+*.json
+*.xml
+
+# Monitoring logs
+logs/
+wazuh/
+elk/
