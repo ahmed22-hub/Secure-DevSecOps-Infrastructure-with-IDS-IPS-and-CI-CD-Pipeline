@@ -10,7 +10,14 @@ services:
       - ADMIN_USERNAME=admin
       - ADMIN_PASSWORD=admin
     networks:
-      - app-network
+      - internal-network
+
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   nginx:
     image: nginx:latest
@@ -23,7 +30,9 @@ services:
     depends_on:
       - web
     networks:
-      - app-network
+      - public-network
+      - internal-network
 
 networks:
-  app-network:
+  public-network:
+  internal-network:
